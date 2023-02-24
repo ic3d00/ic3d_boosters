@@ -1,6 +1,7 @@
+
 ESX = exports["es_extended"]:getSharedObject()
 
---[[
+--[[ MAKE A RETURN WITH TRIGGER EVENT (EASIER BOOST CHECKS)
 loot2x 12
 loot3x 13
 
@@ -13,6 +14,32 @@ xp3x 33
 full2x 42
 full3x 43
 --]]
+
+
+--EXAMPLE
+
+RegisterCommand("boostloot2x", function(source, args, rawCommand)
+  local identifier = args[1]
+
+  -- update is_vip column in database for player
+  MySQL.Async.execute("UPDATE users SET boostloot = 12 WHERE identifier = @identifier", {
+    ["@identifier"] = identifier
+  }, function(rowsChanged)
+    if rowsChanged > 0 then
+     
+      print("PLAYER"..identifier.." COM LOOT2X!")
+ 
+    else
+     
+      print("Nenhum identifier encontrado")
+    
+    end
+  end)
+end, true)
+
+--]]
+
+
 RegisterCommand("boostloot2x", function(source, args, rawCommand)
   local identifier = args[1]
 
